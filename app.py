@@ -3,6 +3,8 @@ import numpy as np
 import serial
 import time
 
+#the images have not been uploaded - the code below is just the logical implementation of the edge detection part of our project.
+
 def compute_match_percentage(image1, image2):
     # Load images
     img1 = cv2.imread(image1, cv2.IMREAD_GRAYSCALE)
