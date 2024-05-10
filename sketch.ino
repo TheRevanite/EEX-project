@@ -2,6 +2,8 @@
 #define YELLOW 2
 #define GREEN 3
 
+//Should be in a folder called sketch, according to Arduino IDE
+
 void setup() {
 pinMode(RED, OUTPUT);
 pinMode(YELLOW, OUTPUT);
