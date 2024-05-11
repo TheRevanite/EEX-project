@@ -3,8 +3,6 @@ import numpy as np
 import serial
 import time
 
-#the images have not been uploaded - the code below is just the logical implementation of the edge detection part of our project.
-
 def compute_match_percentage(image1, image2):
     # Load images
     img1 = cv2.imread(image1, cv2.IMREAD_GRAYSCALE)
@@ -35,8 +33,7 @@ def compute_match_percentage(image1, image2):
 
 def preprocess_image(image_path):
     # Read the original image
-    img = cv2.imread(image_path) 
-
+    img = cv2.imread(image_path)
     # Convert to grayscale
     img_gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 
@@ -50,7 +47,7 @@ def preprocess_image(image_path):
 
 def send_match_percentage(match_percentage):
     # Initialize serial connection
-    ser = serial.Serial("COM4", 9600)
+    ser = serial.Serial("COM3", 9600)
     # Wait for serial port to open
     time.sleep(2)
 
@@ -62,7 +59,7 @@ def send_match_percentage(match_percentage):
 
 def receive_signal():
     # Initialize serial connection
-    ser = serial.Serial("COM4", 9600)
+    ser = serial.Serial("COM3", 9600)
     # Wait for serial port to open
     time.sleep(2)
 
@@ -85,19 +82,20 @@ def main():
     og_ref_images=['og_reference1.jpg','og_reference2.jpg','og_reference3.jpg','og_reference4.jpg']
     og_images=['og_image1.jpg','og_image2.jpg','og_image3.jpg','og_image4.jpg']
 
+    #ref_images=['reference1.jpg', 'reference2.jpg', 'reference3.jpg', 'reference4.jpg']
+
     for i in og_ref_images:
         x=1
         reference_edge=preprocess_image(i)
-        cv2.imwrite(f'reference{x}.jpg')
+        cv2.imwrite(f'reference{x}.jpg', reference_edge)
         x+=1
 
     ref_images_array=['reference1.jpg','reference2.jpg','reference3.jpg','reference4.jpg']
-    # Paths to the images you want to compare
     default=1
     while default==1:
         for i in range(4):
             image_edge=preprocess_image(og_images[i])
-            cv2.imwrite('final_image.jpg')
+            cv2.imwrite('final_image.jpg', image_edge)
             referencepath = ref_images_array[i]
             imagepath = 'final_image.jpg'
             # Compute match percentage
@@ -114,7 +112,7 @@ def main():
             else:
                 print("Did not receive a signal to continue, stopping the process...")
                 break
-        default=int(input(("Press 1 to continue processing, or 0 to end...")))
+        default=int(input(("Press 1 to continue processing, or 0 to end...\n")))
     if default==0:
         exit(0)
     #cv2.waitKey(0)
